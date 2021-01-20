@@ -2,6 +2,17 @@ import boto3
 
 dynamodb = boto3.resource("dynamodb")
 
+def parse_urls_set_from_tweet_to_list(scanned_tweet):
+  scanned_tweet["urls"] = list(scanned_tweet["urls"])
+  
+  return scanned_tweet
+
+def parse_tweets_urls(scanned_tweets):
+  return [
+    parse_urls_set_from_tweet_to_list(scanned_tweet) for scanned_tweet in scanned_tweets 
+    if len(scanned_tweet["urls"]) > 0
+  ]
+
 def scan_tweets_table():
   table = dynamodb.Table('Tweets')
   
@@ -17,7 +28,7 @@ def scan_tweets_table():
 
   return {
     "count": scanned_tweets["Count"],
-    "items": scanned_tweets["Items"],
+    "items": parse_tweets_urls(scanned_tweets["Items"]),
     "last_evaluated_key": scanned_tweets["LastEvaluatedKey"],
     "scanned_count": scanned_tweets["ScannedCount"]
   }
