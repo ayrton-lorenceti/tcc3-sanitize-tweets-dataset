@@ -12,4 +12,5 @@ Resources:
       CodeUri: src
       Handler: lambdas/tweets_table_filter.lambda_handler
       Policies:
+        - AmazonDynamoDBReadOnlyAccess
         - AmazonS3FullAccess
