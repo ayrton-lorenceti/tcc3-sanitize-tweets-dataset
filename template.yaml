@@ -6,11 +6,11 @@ Globals:
     Runtime: python3.7
 
 Resources:
-  TweetsTableFilterFunction:
+  FilterTweetsTableFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: src
-      Handler: lambdas/tweets_table_filter.lambda_handler
+      Handler: lambdas/filter_tweets_table.lambda_handler
       Policies:
         - AmazonDynamoDBReadOnlyAccess
         - AmazonS3FullAccess
