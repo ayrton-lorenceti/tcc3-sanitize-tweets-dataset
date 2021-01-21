@@ -1,5 +1,7 @@
 import boto3
 
+from utils.s3_utils import save_last_evaluated_key_to_json
+
 dynamodb = boto3.resource("dynamodb")
 
 def get_tweets_from_items(tweets):
@@ -17,6 +19,8 @@ def scan_tweets_table():
     ExpressionAttributeValues=expression_attribute_values,
     ExpressionAttributeNames=expression_attribute_names
   )
+
+  save_last_evaluated_key_to_json(tweets["LastEvaluatedKey"])
 
   return {
     "count": tweets["Count"],
