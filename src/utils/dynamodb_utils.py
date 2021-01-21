@@ -1,5 +1,6 @@
 import boto3
-import pprint
+
+from pprint import pprint
 
 from utils.s3_utils import save_last_evaluated_key_to_json
 
@@ -29,6 +30,7 @@ def scan_tweets_table():
     "last_evaluated_key": tweets["LastEvaluatedKey"],
     "scanned_count": tweets["ScannedCount"]
   }
+
 
   pprint("count: {}\nlast_evaluated_key: {}\nscanned_count: {}".format(filtered_tweets["count"], filtered_tweets["last_evaluated_key"], filtered_tweets["scanned_count"]))
   
