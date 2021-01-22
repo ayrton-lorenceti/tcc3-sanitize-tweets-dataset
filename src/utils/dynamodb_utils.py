@@ -31,7 +31,6 @@ def scan_tweets_table():
     "scanned_count": tweets["ScannedCount"]
   }
 
-
-  pprint("count: {}\nlast_evaluated_key: {}\nscanned_count: {}".format(filtered_tweets["count"], filtered_tweets["last_evaluated_key"], filtered_tweets["scanned_count"]))
+  pprint("count: {}last_evaluated_key: {}scanned_count: {}".format(filtered_tweets["count"], filtered_tweets["last_evaluated_key"]["id_str"], filtered_tweets["scanned_count"]))
   
   return filtered_tweets 
