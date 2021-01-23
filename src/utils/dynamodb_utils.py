@@ -30,7 +30,9 @@ def scan_tweets_table():
     "last_evaluated_key": tweets["LastEvaluatedKey"],
     "scanned_count": tweets["ScannedCount"]
   }
-
-  pprint("count: {}last_evaluated_key: {}scanned_count: {}".format(filtered_tweets["count"], filtered_tweets["last_evaluated_key"]["id_str"], filtered_tweets["scanned_count"]))
   
-  return filtered_tweets 
+  print("count:", filtered_tweets["count"])
+  print("last_evaluated_key:", filtered_tweets["last_evaluated_key"]["id_str"])
+  print("scanned_count:", filtered_tweets["scanned_count"])
+
+  return filtered_tweets
