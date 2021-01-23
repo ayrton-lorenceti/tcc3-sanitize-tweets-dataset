@@ -1,4 +1,4 @@
-from utils.dynamodb_utils import scan_tweets_table
+from services.filter_tweets_table_service import filter_from_the_start
 from utils.s3_utils import read_json_from_s3
 
 def lambda_handler(event, context):
@@ -10,4 +10,4 @@ def lambda_handler(event, context):
       "message": "Ok"
     }    
   except:
-    return scan_tweets_table()
+    return filter_from_the_start()
