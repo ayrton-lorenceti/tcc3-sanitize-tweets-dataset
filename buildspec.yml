@@ -1,9 +1,0 @@
-version: 0.2
-phases:
-  install:
-    runtime-versions:
-        python: 3.7
-  build:
-    commands:
-      - sam deploy --region sa-east-1 --stack-name tcc3 --s3-prefix tcc3 --s3-bucket tcc3bucket --capabilities CAPABILITY_IAM
-      - aws s3 rm s3://tcc3bucket/last_evaluated_key.json
