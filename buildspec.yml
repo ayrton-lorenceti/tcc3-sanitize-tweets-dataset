@@ -5,7 +5,7 @@ phases:
         python: 3.7
   build:
     commands:
-      - sam package --template-file template.yaml --s3-bucket tcc3bucket --output-template-file packaged-template.yaml
+      - sam package --template-file template.yaml --s3-bucket tcc3bucket --s3-prefix tcc3 --output-template-file packaged-template.yaml
       - aws s3 rm s3://tcc3bucket/last_evaluated_key.json
 artifacts:
   files:
