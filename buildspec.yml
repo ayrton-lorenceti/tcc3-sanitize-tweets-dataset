@@ -6,6 +6,7 @@ phases:
   build:
     commands:
       - sam package --template-file template.yaml --s3-bucket tcc3bucket --output-template-file packaged-template.yaml
+      - aws s3 rm s3://tcc3bucket/last_evaluated_key.json
 artifacts:
   files:
     - packaged-template.yaml
