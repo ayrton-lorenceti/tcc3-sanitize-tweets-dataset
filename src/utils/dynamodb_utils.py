@@ -14,13 +14,7 @@ expression_attribute_names = { "#text": "text" }
 def get_tweets_from_items(tweets):
   return [{ "id_str": tweet["id_str"], "full_text": tweet["text"] } for tweet in tweets]
 
-def scan_tweets_table_without_pagination():
-  tweets = table.scan(
-    FilterExpression=filter_expression,
-    ExpressionAttributeValues=expression_attribute_values,
-    ExpressionAttributeNames=expression_attribute_names
-  )
-
+def get_filtered_tweets(tweets):
   filtered_tweets = {
     "count": tweets["Count"],
     "tweets": get_tweets_from_items(tweets["Items"]),
@@ -29,3 +23,26 @@ def scan_tweets_table_without_pagination():
   }
 
   return filtered_tweets
+
+def scan_tweets_table_without_pagination():
+  tweets = table.scan(
+    FilterExpression=filter_expression,
+    ExpressionAttributeValues=expression_attribute_values,
+    ExpressionAttributeNames=expression_attribute_names
+  )
+
+  return get_filtered_tweets(tweets)
+
+def scan_tweets_table_with_pagination(last_evaluated_key):
+  tweets = table.scan(
+    FilterExpression=filter_expression,
+    ExpressionAttributeValues=expression_attribute_values,
+    ExpressionAttributeNames=expression_attribute_names,
+    ExclusiveStartKey=last_evaluated_key
+  )
+
+  # if (tweets["LastEvaluatedKey"] is None):
+  #   # salva -1 no json
+  #   # desabilita lambdas
+
+  return get_filtered_tweets(tweets)
