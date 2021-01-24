@@ -1,0 +1,11 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+        python: 3.7
+  build:
+    commands:
+      - sam package --template-file template.yaml --s3-bucket tcc3bucket --output-template-file packaged-template.yaml
+artifacts:
+  files:
+    - packaged-template.yaml
