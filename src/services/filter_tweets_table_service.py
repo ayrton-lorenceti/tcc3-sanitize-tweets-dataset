@@ -9,10 +9,11 @@ def print_filter_results(filtered_tweets):
 def filter_from_the_start():
   filtered_tweets = scan_tweets_table_without_pagination()
 
+
   save_last_evaluated_key_to_json(filtered_tweets["last_evaluated_key"])
 
   print_filter_results(filtered_tweets)
-  
+
   return filtered_tweets
 
 def filter_by_last_evaluated_key(last_evaluated_key):
