@@ -1,9 +1,5 @@
 import boto3
 
-from pprint import pprint
-
-from utils.s3_utils import save_last_evaluated_key_to_json
-
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table('Tweets')
 
