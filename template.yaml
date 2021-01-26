@@ -20,7 +20,7 @@ Resources:
   TCC3LambdaLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      Name: tcc3-lambda-layer
+      LayerName: tcc3-lambda-layer
       CompatibleRuntimes:
         - python3.7
       ContentUri: src/core
