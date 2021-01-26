@@ -14,3 +14,10 @@ Resources:
       Policies:
         - AmazonDynamoDBReadOnlyAccess
         - AmazonS3FullAccess
+  
+  TCC3LambdaLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      CompatibleRuntimes:
+        - python3.7
+      ContentUri: src/core
