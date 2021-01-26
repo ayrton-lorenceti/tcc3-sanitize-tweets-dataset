@@ -12,7 +12,6 @@ Resources:
       CodeUri: src
       Handler: lambdas/filter_tweets_table.lambda_handler
       Policies:
-        - AmazonDynamoDBReadOnlyAccess
         - AmazonS3FullAccess
   
   TCC3LambdaLayer:
@@ -21,3 +20,5 @@ Resources:
       CompatibleRuntimes:
         - python3.7
       ContentUri: src/core
+      Policies:
+        - AmazonDynamoDBReadOnlyAccess
