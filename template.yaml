@@ -10,7 +10,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: tcc3-filter-tweets-table
-      CodeUri: src
+      CodeUri: src/lambdas/filter_tweets_table
       Handler: lambdas/filter_tweets_table.lambda_handler
       Layers:
         - !Ref TCC3LambdaLayer
@@ -22,7 +22,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: tcc3-filter-tweets-table
-      CodeUri: src
+      CodeUri: src/lambdas/insert_filtered_tweets
       Handler: lambdas/insert_filtered_tweets.lambda_handler
       Layers:
         - !Ref TCC3LambdaLayer
