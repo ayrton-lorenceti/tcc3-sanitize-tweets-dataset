@@ -1,5 +1,5 @@
-from utils.dynamodb_utils import scan_tweets_table_with_pagination, scan_tweets_table_without_pagination
-from utils.s3_utils import save_last_evaluated_key_to_json
+from core.utils.dynamodb_utils import scan_tweets_table_with_pagination, scan_tweets_table_without_pagination
+from core.utils.s3_utils import save_last_evaluated_key_to_json
 
 def print_filter_results(filtered_tweets):
   print("count:", filtered_tweets["count"])
