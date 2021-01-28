@@ -9,6 +9,7 @@ Resources:
   FilterTweetsTableFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: tcc3-filter-tweets-table
       CodeUri: src
       Handler: lambdas/filter_tweets_table.lambda_handler
       Layers:
@@ -16,6 +17,15 @@ Resources:
       Policies:
         - AmazonDynamoDBReadOnlyAccess
         - AmazonS3FullAccess
+
+  InsertFilteredTweetsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: tcc3-filter-tweets-table
+      CodeUri: src
+      Handler: lambdas/insert_filtered_tweets.lambda_handler
+      Layers:
+        - !Ref TCC3LambdaLayer
   
   TCC3LambdaLayer:
     Type: AWS::Serverless::LayerVersion
