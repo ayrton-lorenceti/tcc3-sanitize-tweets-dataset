@@ -1,14 +1,13 @@
 import boto3
 
 dynamodb = boto3.resource("dynamodb")
-table = dynamodb.Table('Tweets')
 
 filter_expression = "NOT begins_with(#text, :text)"
 expression_attribute_values = { ":text": "RT @" }
 expression_attribute_names = { "#text": "text" }
 
 def get_tweets_from_items(tweets):
-  return [{ "id_str": tweet["id_str"], "full_text": tweet["text"] } for tweet in tweets]
+  return [{ "id_str": tweet["id_str"], "text": tweet["text"] } for tweet in tweets]
 
 def get_filtered_tweets(tweets):
   filtered_tweets = {
@@ -20,7 +19,9 @@ def get_filtered_tweets(tweets):
 
   return filtered_tweets
 
-def scan_tweets_table_without_pagination():
+def scan_tweets_table_without_pagination(table_name = "Tweets"):
+  table = dynamodb.Table(table_name)
+
   tweets = table.scan(
     FilterExpression=filter_expression,
     ExpressionAttributeValues=expression_attribute_values,
@@ -29,7 +30,9 @@ def scan_tweets_table_without_pagination():
 
   return get_filtered_tweets(tweets)
 
-def scan_tweets_table_with_pagination(last_evaluated_key):
+def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets"):
+  table = dynamodb.Table(table_name)
+
   tweets = table.scan(
     FilterExpression=filter_expression,
     ExpressionAttributeValues=expression_attribute_values,

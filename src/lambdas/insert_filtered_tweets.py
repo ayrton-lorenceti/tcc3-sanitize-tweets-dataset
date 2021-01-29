@@ -1,11 +1,7 @@
+from core.services.insert_filtered_tweets_service import insert_filtered_tweets
+
 def lambda_handler(event, context):
-  try:
-    return {
-      "status": 200,
-      "message": "Ok."
-    }
-  except:
-    return {
-      "status": 500,
-      "message": "Internal."
-    }
+  tweets = event["tweets"]
+
+  return insert_filtered_tweets(tweets)
+  
