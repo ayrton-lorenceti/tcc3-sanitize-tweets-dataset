@@ -11,7 +11,7 @@ Resources:
     Properties:
       FunctionName: tcc3-filter-tweets-table
       CodeUri: src
-      Handler: lambdas/filter_tweets_table.lambda_handler
+      Handler: lambdas/filter_tweets_table/filter_tweets_table.lambda_handler
       Layers:
         - !Ref TCC3LambdaLayer
       Policies:
@@ -23,7 +23,7 @@ Resources:
     Properties:
       FunctionName: tcc3-insert-filtered-tweets
       CodeUri: src
-      Handler: lambdas/insert_filtered_tweets.lambda_handler
+      Handler: lambdas/insert_filtered_tweets/insert_filtered_tweets.lambda_handler
       Layers:
         - !Ref TCC3LambdaLayer
   
