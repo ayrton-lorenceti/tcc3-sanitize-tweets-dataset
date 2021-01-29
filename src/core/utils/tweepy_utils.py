@@ -1,4 +1,4 @@
-from utils.ssm_utils import get_parameters
+from core.utils.ssm_utils import get_parameters
 
 import tweepy
 
