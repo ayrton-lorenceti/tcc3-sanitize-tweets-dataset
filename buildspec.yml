@@ -3,9 +3,11 @@ phases:
   install:
     commands:
       - pip install virtualenv
-      - virtualenv src/env
+      - cd src
+      - virtualenv env
       - . env/bin/activate
       - pip install -r requirements.txt
+      - cd ..
     runtime-versions:
       python: 3.7
     
