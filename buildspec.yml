@@ -4,7 +4,7 @@ phases:
     commands:
       - ls
       - cd src
-      - pip install -r requirements.txt -t packages
+      - pip install -r ../requirements.txt -t packages
       - ls
     runtime-versions:
       python: 3.7
