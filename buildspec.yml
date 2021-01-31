@@ -2,12 +2,10 @@ version: 0.2
 phases:
   install:
     commands:
-      - ls
-      - pip install -r requirements.txt -t src/packages
-      - cp src/lambdas/insert_filtered_tweets/insert_filtered_tweets.py src/packages
-      - cd src
-      - ls
-      - cd ..
+      - pip install virtualenv
+      - virtualenv env
+      - . env/bin/activate
+      - pip install -r requirements.txt
     runtime-versions:
       python: 3.7
     
