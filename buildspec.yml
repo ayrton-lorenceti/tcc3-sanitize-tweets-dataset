@@ -2,6 +2,8 @@ version: 0.2
 phases:
   install:
     commands:
+      - ls
+      - cd src
       - pip install -r requirements.txt -t packages
       - ls
     runtime-versions:
