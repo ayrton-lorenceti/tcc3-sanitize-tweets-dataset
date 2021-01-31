@@ -10,7 +10,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: tcc3-filter-tweets-table
-      CodeUri: src/
+      CodeUri: src
       Handler: lambdas/filter_tweets_table.lambda_handler
       Policies:
         - AmazonDynamoDBReadOnlyAccess

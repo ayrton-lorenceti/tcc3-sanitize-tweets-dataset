@@ -1,4 +1,4 @@
-from core.utils.tweepy_utils import get_full_text
+from utils.tweepy_utils import get_full_text
 
 import boto3
 
