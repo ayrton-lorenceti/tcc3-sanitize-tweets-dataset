@@ -4,6 +4,7 @@ phases:
     commands:
       - ls
       - pip install -r requirements.txt -t src/packages
+      - cp src/lambdas/insert_filtered_tweets/insert_filtered_tweets.py src/packages
       - cd src
       - ls
       - cd ..
