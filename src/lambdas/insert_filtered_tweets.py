@@ -4,4 +4,5 @@ print("depois de importar o insert_filtered_tweets_service - insert_filtered_twe
 def lambda_handler(event, context):
   tweets = event["tweets"]
 
+
   return insert_filtered_tweets(tweets)
