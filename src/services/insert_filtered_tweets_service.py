@@ -9,6 +9,8 @@ def insert_filtered_tweets(tweets):
   tweets_saved = 0
   total_tweets = len(tweets)
 
+  print("bbb")
+
   with teste_table.batch_writer() as batch:
     for tweet in tweets:
       full_text = get_full_text(tweet["id_str"])

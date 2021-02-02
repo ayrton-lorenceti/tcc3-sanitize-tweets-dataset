@@ -11,4 +11,6 @@ tweet_mode = "extended"
 def get_full_text(id_str):
   result = api.get_status(id_str, tweet_mode=tweet_mode)
 
+  print("ccc")
+
   return result["full_text"]
