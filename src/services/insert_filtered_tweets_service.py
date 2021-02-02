@@ -1,5 +1,6 @@
+print("antes de importar o tweepy_utils - insert_filtered_tweets_service")
 from utils.tweepy_utils import get_full_text
-
+print("depois de importar o tweepy_utils - insert_filtered_tweets_service")
 import boto3
 
 dynamodb = boto3.resource("dynamodb")
