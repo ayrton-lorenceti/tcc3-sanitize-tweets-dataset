@@ -6,7 +6,7 @@ phases:
     
   build:
     commands:
-      - pip install -r src/requirements.txt -t src/packages
+      - pip install -r src/requirements.txt -t src
       - cd src
       - ls
       - cd ..
