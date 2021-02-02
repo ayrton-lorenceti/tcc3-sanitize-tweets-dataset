@@ -2,7 +2,7 @@ print("antes de importar o ssm_utils - tweepy_utils")
 from utils.ssm_utils import get_parameters
 print("depois de importar o ssm_utils - tweepy_utils")
 print("antes de importar o tweepy - tweepy_utils")
-from packages import tweepy
+import tweepy
 print("depois de importar o tweepy - tweepy_utils")
 consumer_key = get_parameters("CONSUMER_KEY")
 consumer_secret_key = get_parameters("CONSUMER_SECRET_KEY")
