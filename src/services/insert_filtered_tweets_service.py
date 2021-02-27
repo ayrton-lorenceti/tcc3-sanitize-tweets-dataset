@@ -7,7 +7,7 @@ teste_table = dynamodb.Table('Teste')
 
 def insert_filtered_tweets(tweets):
   tweets_saved = 0
-  total_tweets = len(tweets)
+  total_tweets_received = len(tweets)
 
   with teste_table.batch_writer() as batch:
     for tweet in tweets:
@@ -24,5 +24,5 @@ def insert_filtered_tweets(tweets):
 
   return {
     "tweets_saved": tweets_saved,
-    "total_tweets": total_tweets
+    "total_tweets_received": total_tweets_received
   }
