@@ -7,26 +7,26 @@ Globals:
 
 Resources:
   TCC3StateMachineRole:
-  Type: "AWS::IAM::Role"
-  Properties:
-    AssumeRolePolicyDocument:
-      Version: "2012-10-17"
-      Statement:
-        - Effect: "Allow"
-          Principal:
-            Service:
-              - !Sub states.${AWS::Region}.amazonaws.com
-          Action: "sts:AssumeRole"
-    Path: "/"
-    Policies:
-      - PolicyName: StatesExecutionPolicy
-        PolicyDocument:
-          Version: "2012-10-17"
-          Statement:
-            - Effect: Allow
-              Action:
-                - "lambda:InvokeFunction"
-              Resource: "*"
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - !Sub states.${AWS::Region}.amazonaws.com
+            Action: "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyName: StatesExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "lambda:InvokeFunction"
+                Resource: "*"
 
   FilterTweetsTableFunction:
     Type: AWS::Serverless::Function
