@@ -33,4 +33,4 @@ Resources:
       DefinitionS3Location:
         Bucket: tcc3bucket
         Key: state_machine.json
-      RoleArn: !Get TCC3StepFunctionRole.Arn
+      RoleArn: !GetAtt TCC3StepFunctionRole.Arn
