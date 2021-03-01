@@ -1,0 +1,29 @@
+{
+  "StartAt": "Filter Tweets",
+  "States": {
+    "Filter Tweets": {
+      "Type": "Task",
+      "Resource": { "Fn::GetAtt" : [ "tcc3-filter-tweets-table", "Arn" ] },
+      "Next": "Assign Case",
+      "Comment": "Filter 'Tweets' table, getting every different tweet (retweets not included)"
+    }, 
+    "Are there tweets": {
+        "Type" : "Choice",
+        "Choices": [ 
+          {
+            "Not": {
+              "Variable": "$.last_evaluated_key",
+              "NumericEquals": -1,
+              "Next": "Insert Tweets"
+            }
+          }
+        ]
+    },
+     "Insert Tweets": {
+      "Type": "Task",
+      "Resource": { "Fn::GetAtt" : [ "tcc3-insert-filtered-tweets", "Arn" ] },
+      "End": true,
+      "Comment": "Search the full text of every tweet previously filtered and save it in a new table"
+    }
+  }
+}

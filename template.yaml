@@ -25,3 +25,12 @@ Resources:
       Policies:
         - AmazonSSMReadOnlyAccess
         - AmazonDynamoDBFullAccess
+
+  TCC3StateMachine:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      StateMachineName: TCC3-StateMachine
+      DefinitionS3Location:
+        Bucket: tcc3bucket
+        Key: state_machine.json
+      RoleArn: !Get TCC3StepFunctionRole.Arn
