@@ -3,8 +3,8 @@
   "States": {
     "Filter Tweets": {
       "Type": "Task",
-      "Resource": { "Fn::GetAtt" : [ "tcc3-filter-tweets-table", "Arn" ] },
-      "Next": "Assign Case",
+      "Resource": { "Fn::GetAtt": [ "tcc3-filter-tweets-table", "Arn" ] },
+      "Next": "Are there tweets",
       "Comment": "Filter 'Tweets' table, getting every different tweet (retweets not included)"
     }, 
     "Are there tweets": {
@@ -13,13 +13,13 @@
           {
             "Not": {
               "Variable": "$.last_evaluated_key",
-              "NumericEquals": -1,
-              "Next": "Insert Tweets"
-            }
+              "NumericEquals": -1
+            },
+            "Next": "Insert Tweets"
           }
         ]
     },
-     "Insert Tweets": {
+    "Insert Tweets": {
       "Type": "Task",
       "Resource": { "Fn::GetAtt" : [ "tcc3-insert-filtered-tweets", "Arn" ] },
       "End": true,
