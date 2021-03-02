@@ -1,0 +1,19 @@
+{
+  "AttributeDefinitions": [
+      {
+          "AttributeName": "id_str",
+          "AttributeType": "S"
+      }
+  ],
+  "TableName": "Teste",
+  "KeySchema": [
+      {
+          "AttributeName": "id_str",
+          "KeyType": "HASH"
+      }
+  ],
+  "ProvisionedThroughput": {
+      "ReadCapacityUnits": 5,
+      "WriteCapacityUnits": 5
+  }
+}
