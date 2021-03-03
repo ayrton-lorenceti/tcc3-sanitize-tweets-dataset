@@ -54,7 +54,7 @@ Resources:
       StateMachineName: TCC3-StateMachine
       DefinitionS3Location:
         Bucket: tcc3bucket
-        Key: state_machine.json
+        Key: state_machine.asl.json
       DefinitionSubstitutions:
         FilterTweetsTableFunctionArn: !GetAtt FilterTweetsTableFunction.Arn
         InsertFilteredTweetsFunctionArn: !GetAtt InsertFilteredTweetsFunction.Arn
