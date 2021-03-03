@@ -3,7 +3,7 @@
   "States": {
     "Filter Tweets": {
       "Type": "Task",
-      "Resource": { "Fn::GetAtt": [ "tcc3-filter-tweets-table", "Arn" ] },
+      "Resource": "${FilterTweetsTableFunctionArn}",
       "Next": "Are there tweets",
       "Comment": "Filter 'Tweets' table, getting every different tweet (retweets not included)"
     }, 
@@ -21,7 +21,7 @@
     },
     "Insert Tweets": {
       "Type": "Task",
-      "Resource": { "Fn::GetAtt" : [ "tcc3-insert-filtered-tweets", "Arn" ] },
+      "Resource": "${InsertFilteredTweetsFunctionArn}",
       "End": true,
       "Comment": "Search the full text of every tweet previously filtered and save it in a new table"
     }
