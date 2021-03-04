@@ -25,7 +25,8 @@ def scan_tweets_table_without_pagination(table_name = "Tweets"):
   tweets = table.scan(
     FilterExpression=filter_expression,
     ExpressionAttributeValues=expression_attribute_values,
-    ExpressionAttributeNames=expression_attribute_names
+    ExpressionAttributeNames=expression_attribute_names,
+    Limit=5
   )
 
   return get_filtered_tweets(tweets)
