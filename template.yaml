@@ -59,3 +59,15 @@ Resources:
         FilterTweetsTableFunctionArn: !GetAtt FilterTweetsTableFunction.Arn
         InsertFilteredTweetsFunctionArn: !GetAtt InsertFilteredTweetsFunction.Arn
       RoleArn: !GetAtt TCC3StateMachineRole.Arn
+
+  TCC3StateMachineRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Name: TCC3-StateMachine-Rule
+      ScheduleExpression: "rate(5 minutes)"
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt TCC3StateMachine.Arn
+          Id: StateMachineId
+          RoleArn: TCC3StateMachineRole.Arn
+
