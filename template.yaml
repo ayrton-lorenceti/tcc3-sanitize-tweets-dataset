@@ -28,6 +28,35 @@ Resources:
                   - "lambda:InvokeFunction"
                 Resource: "*"
 
+  TCC3RuleRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - !Sub states.${AWS::Region}.amazonaws.com
+            Action: "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyName: StatesExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "events:DeleteRule"
+                  - "events:DescribeRule"
+                  - "events:PutRule"
+                  - "events:PutTargets"
+                  - "events:RemoveTargets"
+                  - "states:CreateStateMachine"
+                  - "states:DescribeStateMachine"
+                  - "states:UpdateStateMachine"
+                Resource: "*"
+
   FilterTweetsTableFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -70,5 +99,5 @@ Resources:
         - Arn: !GetAtt TCC3StateMachine.Arn
           Id: StateMachineId
           RoleArn: !GetAtt TCC3StateMachineRole.Arn
-      RoleArn: "arn:aws:iam::446695802476:role/service-role/Amazon_EventBridge_Invoke_Step_Functions_846846204"
+      RoleArn: !GetAtt TCC3RuleRole.Arn
 
