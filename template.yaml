@@ -70,4 +70,5 @@ Resources:
         - Arn: !GetAtt TCC3StateMachine.Arn
           Id: StateMachineId
           RoleArn: !GetAtt TCC3StateMachineRole.Arn
+      RoleArn: "arn:aws:iam::446695802476:role/service-role/Amazon_EventBridge_Invoke_Step_Functions_846846204"
 
