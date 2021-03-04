@@ -37,11 +37,11 @@ Resources:
           - Effect: "Allow"
             Principal:
               Service:
-                - !Sub states.${AWS::Region}.amazonaws.com
+                - !Sub events.${AWS::Region}.amazonaws.com
             Action: "sts:AssumeRole"
       Path: "/"
       Policies:
-        - PolicyName: StatesExecutionPolicy
+        - PolicyName: RuleExecutionPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
