@@ -11,16 +11,19 @@ def insert_filtered_tweets(tweets):
 
   with teste_table.batch_writer() as batch:
     for tweet in tweets:
-      full_text = get_full_text(tweet["id_str"])
+      try:
+        full_text = get_full_text(tweet["id_str"])
 
-      batch.put_item(
-        Item={ 
-          "id_str": tweet["id_str"], 
-          "full_text": full_text
-        }
-      )
+        batch.put_item(
+          Item={ 
+            "id_str": tweet["id_str"], 
+            "full_text": full_text
+          }
+        )
 
-      tweets_saved += 1
+        tweets_saved += 1
+      except:
+        pass
 
   return {
     "tweets_saved": tweets_saved,
