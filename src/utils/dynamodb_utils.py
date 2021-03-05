@@ -1,5 +1,8 @@
+from utils.s3_utils import save_last_evaluated_key_to_json
+
 import boto3
 
+events = boto3.client('events')
 dynamodb = boto3.resource("dynamodb")
 
 filter_expression = "NOT begins_with(#text, :text)"
@@ -42,8 +45,17 @@ def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets")
     Limit=5
   )
 
-  # if (tweets["LastEvaluatedKey"] is None):
-  #   # salva -1 no json
-  #   # desabilita lambdas
+  if (tweets["LastEvaluatedKey"] is None):
+    last_evaluated_key = {
+      "id_str": "-1"
+    }
+
+    save_last_evaluated_key_to_json(last_evaluated_key)
+
+    events.disable_rule(
+      Name='TCC3-StateMachine-Rule'
+    )
+
+    return last_evaluated_key
 
   return get_filtered_tweets(tweets)
