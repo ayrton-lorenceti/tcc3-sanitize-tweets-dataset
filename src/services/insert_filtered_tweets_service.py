@@ -13,17 +13,24 @@ def insert_filtered_tweets(tweets):
     for tweet in tweets:
       try:
         full_text = get_full_text(tweet["id_str"])
-
+        
         batch.put_item(
           Item={ 
             "id_str": tweet["id_str"], 
-            "full_text": (full_text, tweet["text"])[full_text]
+            "full_text": full_text
           }
         )
-
+      except Exception as exception:
+        print("Error: ", exception)
+        
+        batch.put_item(
+          Item={ 
+            "id_str": tweet["id_str"], 
+            "full_text": tweet["text"]
+          }
+        )
+      finally:
         tweets_saved += 1
-      except:
-        pass
 
   return {
     "tweets_saved": tweets_saved,
