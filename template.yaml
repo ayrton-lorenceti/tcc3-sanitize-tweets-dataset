@@ -37,7 +37,7 @@ Resources:
           - Effect: "Allow"
             Principal:
               Service:
-                - !Sub events.${AWS::Region}.amazonaws.com
+                - !Sub events.amazonaws.com
             Action: "sts:AssumeRole"
       Path: "/"
       Policies:
