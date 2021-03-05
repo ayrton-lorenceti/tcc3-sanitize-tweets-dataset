@@ -12,8 +12,8 @@
         "Choices": [ 
           {
             "Not": {
-              "Variable": "$.last_evaluated_key",
-              "NumericEquals": -1
+              "Variable": "$.last_evaluated_key.id_str",
+              "StringEquals": "-1"
             },
             "Next": "Insert Tweets"
           }

@@ -17,7 +17,7 @@ def insert_filtered_tweets(tweets):
         batch.put_item(
           Item={ 
             "id_str": tweet["id_str"], 
-            "full_text": full_text
+            "full_text": (full_text, tweet["text"])[full_text]
           }
         )
 
