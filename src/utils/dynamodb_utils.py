@@ -1,8 +1,11 @@
+from tweepy import TweepError
+
+from utils.events_utils import disable_rule
 from utils.s3_utils import save_last_evaluated_key_to_json
+from utils.tweepy_utils import get_full_text
 
 import boto3
 
-events = boto3.client('events')
 dynamodb = boto3.resource("dynamodb")
 
 filter_expression = "NOT begins_with(#text, :text)"
@@ -28,8 +31,7 @@ def scan_tweets_table_without_pagination(table_name = "Tweets"):
   tweets = table.scan(
     FilterExpression=filter_expression,
     ExpressionAttributeValues=expression_attribute_values,
-    ExpressionAttributeNames=expression_attribute_names,
-    Limit=5
+    ExpressionAttributeNames=expression_attribute_names
   )
 
   return get_filtered_tweets(tweets)
@@ -41,8 +43,7 @@ def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets")
     FilterExpression=filter_expression,
     ExpressionAttributeValues=expression_attribute_values,
     ExpressionAttributeNames=expression_attribute_names,
-    ExclusiveStartKey=last_evaluated_key,
-    Limit=10
+    ExclusiveStartKey=last_evaluated_key
   )
 
   if (tweets["LastEvaluatedKey"] is None):
@@ -52,10 +53,46 @@ def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets")
 
     save_last_evaluated_key_to_json(last_evaluated_key)
 
-    events.disable_rule(
-      Name='TCC3-StateMachine-Rule'
-    )
+    disable_rule()
 
     return last_evaluated_key
 
   return get_filtered_tweets(tweets)
+
+def insert_filtered_tweets(tweets, table_name = "Filtered_Tweets"):
+  table = dynamodb.Table(table_name)
+
+  tweets_saved = 0
+  total_tweets_received = len(tweets)
+
+  with table.batch_writer() as batch:
+    for tweet in tweets:
+      try:
+        full_text = get_full_text(tweet["id_str"])
+        
+        batch.put_item(
+          Item={ 
+            "id_str": tweet["id_str"], 
+            "full_text": full_text
+          }
+        )
+      except TweepError as exception:
+        print("Error: ", exception)
+        
+        batch.put_item(
+          Item={ 
+            "id_str": tweet["id_str"], 
+            "full_text": tweet["text"]
+          }
+        )
+      except Exception as exception:
+        print("Generic error: ", exception)
+
+        raise Exception(exception)
+      finally:
+        tweets_saved += 1
+
+  return {
+    "tweets_saved": tweets_saved,
+    "total_tweets_received": total_tweets_received
+  }
