@@ -42,7 +42,7 @@ def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets")
     ExpressionAttributeValues=expression_attribute_values,
     ExpressionAttributeNames=expression_attribute_names,
     ExclusiveStartKey=last_evaluated_key,
-    Limit=5
+    Limit=10
   )
 
   if (tweets["LastEvaluatedKey"] is None):

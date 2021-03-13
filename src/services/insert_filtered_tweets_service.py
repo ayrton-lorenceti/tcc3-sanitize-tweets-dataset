@@ -1,5 +1,7 @@
 from utils.tweepy_utils import get_full_text
 
+from tweepy import TweepError
+
 import boto3
 
 dynamodb = boto3.resource("dynamodb")
@@ -20,7 +22,7 @@ def insert_filtered_tweets(tweets):
             "full_text": full_text
           }
         )
-      except Exception as exception:
+      except TweepError as exception:
         print("Error: ", exception)
         
         batch.put_item(
@@ -29,6 +31,10 @@ def insert_filtered_tweets(tweets):
             "full_text": tweet["text"]
           }
         )
+      except Exception as exception:
+        print("Generic error: ", exception)
+
+        raise Exception(exception)
       finally:
         tweets_saved += 1
 
