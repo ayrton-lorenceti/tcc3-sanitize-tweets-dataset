@@ -93,7 +93,7 @@ Resources:
     Type: 'AWS::Events::Rule'
     Properties:
       Name: TCC3-StateMachine-Rule
-      ScheduleExpression: "rate(5 minutes)"
+      ScheduleExpression: "rate(2 minutes)"
       State: ENABLED
       Targets:
         - Arn: !GetAtt TCC3StateMachine.Arn
