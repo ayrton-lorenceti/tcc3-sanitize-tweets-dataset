@@ -76,6 +76,8 @@ Resources:
       Policies:
         - AmazonSSMReadOnlyAccess
         - AmazonDynamoDBFullAccess
+      Memory: 254
+      Timeout: 30
 
   TCC3StateMachine:
     Type: AWS::StepFunctions::StateMachine
@@ -93,7 +95,7 @@ Resources:
     Type: 'AWS::Events::Rule'
     Properties:
       Name: TCC3-StateMachine-Rule
-      ScheduleExpression: "rate(2 minutes)"
+      ScheduleExpression: "rate(1 minute)"
       State: ENABLED
       Targets:
         - Arn: !GetAtt TCC3StateMachine.Arn
