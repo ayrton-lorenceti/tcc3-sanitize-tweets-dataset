@@ -73,11 +73,11 @@ Resources:
       FunctionName: tcc3-insert-filtered-tweets
       CodeUri: src
       Handler: lambdas/insert_filtered_tweets.lambda_handler
+      MemorySize: 254
+      Timeout: 30
       Policies:
         - AmazonSSMReadOnlyAccess
         - AmazonDynamoDBFullAccess
-      MemorySize: 254
-      Timeout: 30
 
   TCC3StateMachine:
     Type: AWS::StepFunctions::StateMachine
