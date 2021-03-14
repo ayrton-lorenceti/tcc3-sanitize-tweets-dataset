@@ -76,7 +76,7 @@ Resources:
       Policies:
         - AmazonSSMReadOnlyAccess
         - AmazonDynamoDBFullAccess
-      Memory: 254
+      MemorySize: 254
       Timeout: 30
 
   TCC3StateMachine:
