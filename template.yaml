@@ -27,6 +27,21 @@ Resources:
                 Action:
                   - "lambda:InvokeFunction"
                 Resource: "*"
+  
+  TCC3RemoveIncompleteTweetsRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service:
+                  - lambdas.amazonaws.com
+              Action: 
+                - "sts:AssumeRole"
+              Resource: !GetAtt RemoveIncompleteTweetsFunction.Arn
+        Path: "/"
 
   TCC3RuleRole:
     Type: "AWS::IAM::Role"
@@ -78,6 +93,14 @@ Resources:
       Policies:
         - AmazonSSMReadOnlyAccess
         - AmazonDynamoDBFullAccess
+  
+  RemoveIncompleteTweetsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: tcc3-remove-incomplete-tweets
+      CodeUri: src
+      Handler: lambdas/remove_incomplete_tweets.lambda_handler
+      Role: !GetAtt TCC3RemoveIncompleteTweetsRole.Arn 
 
   TCC3StateMachine:
     Type: AWS::StepFunctions::StateMachine
