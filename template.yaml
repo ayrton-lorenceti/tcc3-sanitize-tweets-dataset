@@ -86,14 +86,10 @@ Resources:
       CodeUri: src
       Handler: lambdas/remove_incomplete_tweets.lambda_handler
       Policies:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Action:
-              - "dynamodb:BatchGetItem"
-              - "dynamodb:DeleteItem"
-              - "dynamodb:GetItem"
-              - "dynamodb:Scan"
+        - "dynamodb:BatchGetItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:Scan"
 
   TCC3StateMachine:
     Type: AWS::StepFunctions::StateMachine
