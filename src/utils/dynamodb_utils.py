@@ -8,12 +8,23 @@ import boto3
 
 dynamodb = boto3.resource("dynamodb")
 
-def get_scan_params_by_table(table_name = "Tweets"):
+def get_filtered_tweets(tweets):
+  filtered_tweets = {
+    "count": tweets["Count"],
+    "tweets": get_tweets_from_items(tweets["Items"]),
+    "last_evaluated_key": tweets["LastEvaluatedKey"],
+    "scanned_count": tweets["ScannedCount"]
+  }
+
+  return filtered_tweets
+
+def get_scan_params_by_table(last_evaluated_key = None, table_name = "Tweets"):
   if (table_name == "Classified_Tweets"):
     return {
       "filter_expression": "contains(#text, :text)",
       "expression_attribute_values": { ":text": "… https://t.co/" },
-      "expression_attribute_names": { "#text": "text" }
+      "expression_attribute_names": { "#text": "text" },
+      "last_evaluated_key": last_evaluated_key
     }
 
   return {
@@ -25,69 +36,6 @@ def get_scan_params_by_table(table_name = "Tweets"):
 
 def get_tweets_from_items(tweets):
   return [{ "id_str": tweet["id_str"], "text": tweet["text"] } for tweet in tweets]
-
-def get_filtered_tweets(tweets):
-  filtered_tweets = {
-    "count": tweets["Count"],
-    "tweets": get_tweets_from_items(tweets["Items"]),
-    "last_evaluated_key": tweets["LastEvaluatedKey"],
-    "scanned_count": tweets["ScannedCount"]
-  }
-
-  return filtered_tweets
-
-def scan_table_using_filters(scan_params, table_name = "Tweets"):
-  table = dynamodb.Table(table_name)
-
-  scan_params = get_scan_params_by_table("Classified_Tweets")
-
-  return table.scan(
-    FilterExpression=scan_params["filter_expression"],
-    ExpressionAttributeValues=scan_params["expression_attribute_values"],
-    ExpressionAttributeNames=scan_params["expression_attribute_names"],
-    Limit=10
-  )
-
-
-def scan_tweets_table_without_pagination(table_name = "Tweets"):
-  table = dynamodb.Table(table_name)
-
-  scan_params = get_scan_params_by_table()
-
-  tweets = table.scan(
-    FilterExpression=scan_params["filter_expression"],
-    ExpressionAttributeValues=scan_params["expression_attribute_values"],
-    ExpressionAttributeNames=scan_params["expression_attribute_names"],
-    Limit=scan_params["limit"]
-  )
-
-  return get_filtered_tweets(tweets)
-
-def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets"):
-  table = dynamodb.Table(table_name)
-
-  scan_params = get_scan_params_by_table()
-
-  tweets = table.scan(
-    FilterExpression=scan_params["filter_expression"],
-    ExpressionAttributeValues=scan_params["expression_attribute_values"],
-    ExpressionAttributeNames=scan_params["expression_attribute_names"],
-    ExclusiveStartKey=scan_params["last_evaluated_key"],
-    Limit=scan_params["limit"]
-  )
-
-  if (tweets["LastEvaluatedKey"] is None):
-    last_evaluated_key = {
-      "id_str": "-1"
-    }
-
-    save_last_evaluated_key_to_json(last_evaluated_key)
-
-    disable_rule()
-
-    return last_evaluated_key
-
-  return get_filtered_tweets(tweets)
 
 def insert_filtered_tweets(tweets, table_name = "Filtered_Tweets"):
   table = dynamodb.Table(table_name)
@@ -126,3 +74,68 @@ def insert_filtered_tweets(tweets, table_name = "Filtered_Tweets"):
     "tweets_saved": tweets_saved,
     "total_tweets_received": total_tweets_received
   }
+
+def scan_table_using_filters(scan_params, table_name = "Tweets"):
+  table = dynamodb.Table(table_name)
+
+  scan_params = get_scan_params_by_table("Classified_Tweets")
+
+  return table.scan(
+    FilterExpression=scan_params["filter_expression"],
+    ExpressionAttributeValues=scan_params["expression_attribute_values"],
+    ExpressionAttributeNames=scan_params["expression_attribute_names"],
+    Limit=10
+  )
+
+def scan_table_using_filters_by_last_evaluated_key(scan_params, table_name = "Tweets"):
+  table = dynamodb.Table(table_name)
+
+  scan_params = get_scan_params_by_table("Classified_Tweets")
+
+  return table.scan(
+    FilterExpression=scan_params["filter_expression"],
+    ExpressionAttributeValues=scan_params["expression_attribute_values"],
+    ExpressionAttributeNames=scan_params["expression_attribute_names"],
+    ExclusiveStartKey=scan_params["last_evaluated_key"],
+    Limit=10
+  )
+
+def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets"):
+  table = dynamodb.Table(table_name)
+
+  scan_params = get_scan_params_by_table()
+
+  tweets = table.scan(
+    FilterExpression=scan_params["filter_expression"],
+    ExpressionAttributeValues=scan_params["expression_attribute_values"],
+    ExpressionAttributeNames=scan_params["expression_attribute_names"],
+    ExclusiveStartKey=last_evaluated_key,
+    Limit=scan_params["limit"]
+  )
+
+  if (tweets["LastEvaluatedKey"] is None):
+    last_evaluated_key = {
+      "id_str": "-1"
+    }
+
+    save_last_evaluated_key_to_json(last_evaluated_key)
+
+    disable_rule()
+
+    return last_evaluated_key
+
+  return get_filtered_tweets(tweets)
+
+def scan_tweets_table_without_pagination(table_name = "Tweets"):
+  table = dynamodb.Table(table_name)
+
+  scan_params = get_scan_params_by_table()
+
+  tweets = table.scan(
+    FilterExpression=scan_params["filter_expression"],
+    ExpressionAttributeValues=scan_params["expression_attribute_values"],
+    ExpressionAttributeNames=scan_params["expression_attribute_names"],
+    Limit=scan_params["limit"]
+  )
+
+  return get_filtered_tweets(tweets)
