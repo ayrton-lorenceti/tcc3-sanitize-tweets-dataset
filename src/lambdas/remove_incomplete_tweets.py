@@ -9,6 +9,16 @@ def lambda_handler(event, context):
     
     return last_evaluated_key
   except s3.exceptions.NoSuchKey as exception:
-    pass
+    dynamodb = boto3.resource("dynamodb")
+
+    filter_expression = "contains(... https:/t.co/)"
+
+    table = dynamodb.Table("Classified_Tweets")
+
+    tweets = table.scan(
+      FilterExpression=filter_expression
+    )
+
+    return tweets
   except Exception as exception:
     print(exception)
