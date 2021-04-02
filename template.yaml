@@ -6,6 +6,28 @@ Globals:
     Runtime: python3.7
 
 Resources:
+  RemoveIncompleteTweetsRuleRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - !Sub events.amazonaws.com
+            Action: "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyName: RuleExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "lambda:InvokeFunction"
+                Resource: "*"
+  
   TCC3StateMachineRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -100,6 +122,17 @@ Resources:
         InsertFilteredTweetsFunctionArn: !GetAtt InsertFilteredTweetsFunction.Arn
       RoleArn: !GetAtt TCC3StateMachineRole.Arn
 
+  RemoveIncompleteTweetsRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Name: RemoveIncompleteTweets-Rule
+      ScheduleExpression: "rate(1 minute)"
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt RemoveIncompleteTweetsFunction.Arn
+          Id: RemoveIncompleteTweetsFunctionId
+      RoleArn: !GetAtt RemoveIncompleteTweetsRuleRole.Arn
+
   TCC3StateMachineRule:
     Type: 'AWS::Events::Rule'
     Properties:
@@ -111,4 +144,5 @@ Resources:
           Id: StateMachineId
           RoleArn: !GetAtt TCC3StateMachineRole.Arn
       RoleArn: !GetAtt TCC3RuleRole.Arn
+
 
