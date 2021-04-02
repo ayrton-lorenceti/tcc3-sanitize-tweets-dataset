@@ -87,6 +87,7 @@ Resources:
       Handler: lambdas/remove_incomplete_tweets.lambda_handler
       Policies:
         - AmazonDynamoDBFullAccess
+        - AmazonS3FullAccess
 
   TCC3StateMachine:
     Type: AWS::StepFunctions::StateMachine
