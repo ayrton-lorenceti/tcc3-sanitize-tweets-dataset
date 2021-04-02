@@ -8,11 +8,6 @@ import boto3
 
 dynamodb = boto3.resource("dynamodb")
 
-filter_expression = "NOT begins_with(#text, :text)"
-expression_attribute_values = { ":text": "RT @" }
-expression_attribute_names = { "#text": "text" }
-limit = 100
-
 def get_scan_params_by_table(table_name = "Tweets"):
   if (table_name == "Classified_Tweets"):
     return {
@@ -20,6 +15,13 @@ def get_scan_params_by_table(table_name = "Tweets"):
       "expression_attribute_values": { ":text": "… https://t.co/" },
       "expression_attribute_names": { "#text": "text" }
     }
+
+  return {
+    "filter_expression": "NOT begins_with(#text, :text)",
+    "expression_attribute_values": { ":text": "RT @" },
+    "expression_attribute_names": { "#text": "text" },
+    "limit": 100
+  }
 
 def get_tweets_from_items(tweets):
   return [{ "id_str": tweet["id_str"], "text": tweet["text"] } for tweet in tweets]
@@ -37,11 +39,13 @@ def get_filtered_tweets(tweets):
 def scan_tweets_table_without_pagination(table_name = "Tweets"):
   table = dynamodb.Table(table_name)
 
+  scan_params = get_scan_params_by_table()
+
   tweets = table.scan(
-    FilterExpression=filter_expression,
-    ExpressionAttributeValues=expression_attribute_values,
-    ExpressionAttributeNames=expression_attribute_names,
-    Limit=limit
+    FilterExpression=scan_params["filter_expression"],
+    ExpressionAttributeValues=scan_params["expression_attribute_values"],
+    ExpressionAttributeNames=scan_params["expression_attribute_names"],
+    Limit=scan_params["limit"]
   )
 
   return get_filtered_tweets(tweets)
@@ -49,12 +53,14 @@ def scan_tweets_table_without_pagination(table_name = "Tweets"):
 def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets"):
   table = dynamodb.Table(table_name)
 
+  scan_params = get_scan_params_by_table()
+
   tweets = table.scan(
-    FilterExpression=filter_expression,
-    ExpressionAttributeValues=expression_attribute_values,
-    ExpressionAttributeNames=expression_attribute_names,
-    ExclusiveStartKey=last_evaluated_key,
-    Limit=limit
+    FilterExpression=scan_params["filter_expression"],
+    ExpressionAttributeValues=scan_params["expression_attribute_values"],
+    ExpressionAttributeNames=scan_params["expression_attribute_names"],
+    ExclusiveStartKey=scan_params["last_evaluated_key"],
+    Limit=scan_params["limit"]
   )
 
   if (tweets["LastEvaluatedKey"] is None):

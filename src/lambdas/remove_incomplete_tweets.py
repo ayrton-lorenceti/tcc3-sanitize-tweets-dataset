@@ -1,4 +1,4 @@
-from utils.dynamodb_utils import get_scan_params_by_table
+from utils.dynamodb_utils import get_scan_params_by_table, get_filtered_tweets
 from utils.s3_utils import read_json_from_s3
 
 import boto3
@@ -16,12 +16,14 @@ def lambda_handler(event, context):
 
     scan_params = get_scan_params_by_table("Classified_Tweets")
 
-    tweets = table.scan(
+    scanned_tweets = table.scan(
       FilterExpression=scan_params["filter_expression"],
       ExpressionAttributeValues=scan_params["expression_attribute_values"],
       ExpressionAttributeNames=scan_params["expression_attribute_names"]
     )
 
-    return tweets
+    filtered_tweets = get_filtered_tweets(scanned_tweets)
+
+    return filtered_tweets
   except Exception as exception:
     print(exception)
