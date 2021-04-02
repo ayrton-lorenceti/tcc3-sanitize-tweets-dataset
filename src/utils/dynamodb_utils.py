@@ -13,6 +13,14 @@ expression_attribute_values = { ":text": "RT @" }
 expression_attribute_names = { "#text": "text" }
 limit = 100
 
+def get_scan_params_by_table(table_name = "Tweets"):
+  if (table_name == "Classified_Tweets"):
+    return {
+      filter_expression: "contains(#text, :text)",
+      expression_attribute_values: { ":text": "… https://t.co/" },
+      expression_attribute_names: { "#text": "text" }
+    }
+
 def get_tweets_from_items(tweets):
   return [{ "id_str": tweet["id_str"], "text": tweet["text"] } for tweet in tweets]
 
