@@ -88,6 +88,7 @@ Resources:
       Policies:
         - AmazonDynamoDBFullAccess
         - AmazonS3FullAccess
+        - AmazonSSMReadOnlyAccess
 
   TCC3StateMachine:
     Type: AWS::StepFunctions::StateMachine
