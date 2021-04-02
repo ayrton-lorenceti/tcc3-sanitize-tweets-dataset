@@ -47,6 +47,11 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                  - "events:DeleteRule"
+                  - "events:DescribeRule"
+                  - "events:PutRule"
+                  - "events:PutTargets"
+                  - "events:RemoveTargets"
                   - "lambda:InvokeFunction"
                 Resource: "*"
 
