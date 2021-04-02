@@ -78,8 +78,6 @@ def insert_filtered_tweets(tweets, table_name = "Filtered_Tweets"):
 def scan_table_using_filters(scan_params, table_name = "Tweets"):
   table = dynamodb.Table(table_name)
 
-  scan_params = get_scan_params_by_table(table_name)
-
   return table.scan(
     FilterExpression=scan_params["filter_expression"],
     ExpressionAttributeValues=scan_params["expression_attribute_values"],
@@ -89,9 +87,7 @@ def scan_table_using_filters(scan_params, table_name = "Tweets"):
 
 def scan_table_using_filters_by_last_evaluated_key(scan_params, table_name = "Tweets"):
   table = dynamodb.Table(table_name)
-
-  scan_params = get_scan_params_by_table(table_name)
-
+  
   return table.scan(
     FilterExpression=scan_params["filter_expression"],
     ExpressionAttributeValues=scan_params["expression_attribute_values"],
