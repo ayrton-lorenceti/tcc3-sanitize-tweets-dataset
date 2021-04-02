@@ -36,6 +36,19 @@ def get_filtered_tweets(tweets):
 
   return filtered_tweets
 
+def scan_table_using_filters(scan_params, table_name = "Tweets"):
+  table = dynamodb.Table(table_name)
+
+  scan_params = get_scan_params_by_table("Classified_Tweets")
+
+  return table.scan(
+    FilterExpression=scan_params["filter_expression"],
+    ExpressionAttributeValues=scan_params["expression_attribute_values"],
+    ExpressionAttributeNames=scan_params["expression_attribute_names"],
+    Limit=10
+  )
+
+
 def scan_tweets_table_without_pagination(table_name = "Tweets"):
   table = dynamodb.Table(table_name)
 

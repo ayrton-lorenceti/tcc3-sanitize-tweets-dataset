@@ -9,5 +9,6 @@ phases:
       - pip install -r src/requirements.txt -t src
       - aws s3 cp state_machine.asl.json s3://tcc3bucket/state_machine.asl.json
       - aws s3 rm s3://tcc3bucket/last_evaluated_key.json
+      - aws s3 rm s3://tcc3bucket/remove_incomplete_tweets_table_scan_results.json
       - sam deploy --template-file template.yaml --region sa-east-1 --stack-name tcc3 --s3-prefix tcc3 --s3-bucket tcc3bucket --capabilities CAPABILITY_IAM
 
