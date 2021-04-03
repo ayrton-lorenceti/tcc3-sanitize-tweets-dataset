@@ -15,7 +15,7 @@ def remove_incomplete_tweets_from_the_start():
     return scan_results
 
 def remove_incomplete_tweets_by_last_evaluated_key(last_scan_results):
-  scan_params = get_scan_params_by_table(last_scan_results["last_scan_results"], table_name)
+  scan_params = get_scan_params_by_table(last_scan_results["last_evaluated_key"], table_name)
   scanned_tweets = scan_table_using_filters_by_last_evaluated_key(scan_params, table_name)
   filtered_tweets = get_filtered_tweets(scanned_tweets)
 
