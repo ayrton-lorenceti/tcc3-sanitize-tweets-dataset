@@ -1,9 +1,22 @@
-from utils.dynamodb_utils import delete_incomplete_tweets, get_scan_params_by_table, get_filtered_tweets, scan_table_using_filters, scan_table_using_filters_by_last_evaluated_key
+from utils.dynamodb_utils import delete_incomplete_tweets, get_scan_params_by_table, scan_table_using_filters, scan_table_using_filters_by_last_evaluated_key
 from utils.s3_utils import save_scan_results
 from utils.events_utils import disable_rule
 
 json_filename = "remove_incomplete_tweets_table_scan_results"
 table_name = "Filtered_Tweets"
+
+def get_filtered_tweets(tweets):
+  filtered_tweets = {
+    "count": tweets["Count"],
+    "tweets": get_tweets_from_items(tweets["Items"]),
+    "last_evaluated_key": tweets["LastEvaluatedKey"],
+    "scanned_count": tweets["ScannedCount"]
+  }
+
+  return filtered_tweets
+
+def get_tweets_from_items(tweets):
+  return [{ "id_str": tweet["id_str"], "text": tweet["full_text"] } for tweet in tweets]
 
 def remove_incomplete_tweets_from_the_start():
     scan_params = get_scan_params_by_table(table_name)
