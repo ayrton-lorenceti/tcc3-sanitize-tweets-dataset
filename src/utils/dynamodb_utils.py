@@ -109,7 +109,7 @@ def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets")
     Limit=scan_params["limit"]
   )
 
-  if (tweets["LastEvaluatedKey"] is None):
+  if ("LastEvaluatedKey" not in tweets):
     last_evaluated_key = {
       "id_str": "-1"
     }
@@ -118,7 +118,7 @@ def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets")
 
     disable_rule()
 
-    return last_evaluated_key
+    return "-1"
 
   return get_filtered_tweets(tweets)
 

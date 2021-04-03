@@ -18,6 +18,9 @@ def filter_from_the_start():
 def filter_by_last_evaluated_key(last_evaluated_key):
   filtered_tweets = scan_tweets_table_with_pagination(last_evaluated_key)
 
+  if (filtered_tweets == "-1"):
+    return filtered_tweets
+    
   save_last_evaluated_key_to_json(filtered_tweets["last_evaluated_key"])
 
   print_filter_results(filtered_tweets)
