@@ -10,7 +10,7 @@ def remove_incomplete_tweets_from_the_start():
 
     scan_results = get_scan_results(filtered_tweets)
     json_filename = "remove_incomplete_tweets_table_scan_results"
-    save_remove_incomplete_tweets_table_scan_results(scan_results, json_filename)
+    save_scan_results(scan_results, json_filename)
 
     return scan_results
 
