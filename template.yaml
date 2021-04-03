@@ -87,6 +87,7 @@ Resources:
       Handler: lambdas/remove_incomplete_tweets.lambda_handler
       Policies:
         - AmazonDynamoDBFullAccess
+        - AmazonEventBridgeFullAccess
         - AmazonS3FullAccess
         - AmazonSSMReadOnlyAccess
 
