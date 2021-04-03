@@ -19,9 +19,9 @@ def remove_incomplete_tweets_by_last_evaluated_key(last_scan_results):
   scanned_tweets = scan_table_using_filters_by_last_evaluated_key(scan_params, table_name)
   filtered_tweets = get_filtered_tweets(scanned_tweets)
 
-  scan_results = get_scan_results(filtered_tweets, last_scan_results["remaining_amount"])
+  scan_results = get_scan_results(filtered_tweets, last_scan_results["remaining_amount_of_tweets_to_scan"])
   json_filename = "remove_incomplete_tweets_table_scan_results"
-  save_remove_incomplete_tweets_table_scan_results(scan_results, json_filename)
+  save_scan_results(scan_results, json_filename)
 
   return scan_results
 

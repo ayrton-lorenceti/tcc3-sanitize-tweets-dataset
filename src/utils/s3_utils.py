@@ -22,7 +22,7 @@ def save_last_evaluated_key_to_json(last_evaluated_key, json_filename = "last_ev
     Body=((json.dumps(data).encode('UTF-8')))
   )
 
-def save_remove_incomplete_tweets_table_scan_results(scan_results, json_filename = "last_evaluated_key"):
+def save_scan_results(scan_results, json_filename = "last_evaluated_key"):
   object = s3.Object("tcc3bucket", f'{json_filename}.json')
 
   data = {
