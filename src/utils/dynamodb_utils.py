@@ -93,7 +93,7 @@ def scan_table_using_filters_by_last_evaluated_key(scan_params, table_name = "Tw
     ExpressionAttributeValues=scan_params["expression_attribute_values"],
     ExpressionAttributeNames=scan_params["expression_attribute_names"],
     ExclusiveStartKey=scan_params["last_evaluated_key"],
-    Limit=25
+    Limit=2
   )
 
 def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets"):
@@ -135,3 +135,14 @@ def scan_tweets_table_without_pagination(table_name = "Tweets"):
   )
 
   return get_filtered_tweets(tweets)
+
+def delete_incomplete_tweets(tweets, table_name):
+  table = dynamodb.Table(table_name)
+
+  with table.batch_writer() as batch:
+    for tweet in tweets:
+      batch.put_item(
+        Item={ 
+          "id_str": tweet["id_str"]
+        }
+      )
