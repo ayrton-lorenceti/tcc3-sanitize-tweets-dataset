@@ -92,7 +92,8 @@ def scan_table_using_filters(scan_params, table_name = "Tweets"):
   return table.scan(
     FilterExpression=scan_params["filter_expression"],
     ExpressionAttributeValues=scan_params["expression_attribute_values"],
-    ExpressionAttributeNames=scan_params["expression_attribute_names"]
+    ExpressionAttributeNames=scan_params["expression_attribute_names"],
+    Limit=2500
   )
 
 def scan_table_using_filters_by_last_evaluated_key(scan_params, table_name = "Tweets"):
@@ -102,7 +103,8 @@ def scan_table_using_filters_by_last_evaluated_key(scan_params, table_name = "Tw
     FilterExpression=scan_params["filter_expression"],
     ExpressionAttributeValues=scan_params["expression_attribute_values"],
     ExpressionAttributeNames=scan_params["expression_attribute_names"],
-    ExclusiveStartKey=scan_params["last_evaluated_key"]
+    ExclusiveStartKey=scan_params["last_evaluated_key"],
+    Limit=2500
   )
 
 def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets"):
