@@ -14,7 +14,7 @@ def delete_incomplete_tweets(tweets, table_name):
   with table.batch_writer() as batch:
     for tweet in tweets:
       batch.delete_item(
-        Item={ 
+        Key={ 
           "id_str": tweet["id_str"]
         }
       )
