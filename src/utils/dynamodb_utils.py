@@ -8,6 +8,17 @@ import boto3
 
 dynamodb = boto3.resource("dynamodb")
 
+def delete_incomplete_tweets(tweets, table_name):
+  table = dynamodb.Table(table_name)
+
+  with table.batch_writer() as batch:
+    for tweet in tweets:
+      batch.delete_item(
+        Item={ 
+          "id_str": tweet["id_str"]
+        }
+      )
+
 def get_filtered_tweets(tweets):
   filtered_tweets = {
     "count": tweets["Count"],
@@ -82,7 +93,7 @@ def scan_table_using_filters(scan_params, table_name = "Tweets"):
     FilterExpression=scan_params["filter_expression"],
     ExpressionAttributeValues=scan_params["expression_attribute_values"],
     ExpressionAttributeNames=scan_params["expression_attribute_names"],
-    Limit=10
+    Limit=2
   )
 
 def scan_table_using_filters_by_last_evaluated_key(scan_params, table_name = "Tweets"):
@@ -135,14 +146,3 @@ def scan_tweets_table_without_pagination(table_name = "Tweets"):
   )
 
   return get_filtered_tweets(tweets)
-
-def delete_incomplete_tweets(tweets, table_name):
-  table = dynamodb.Table(table_name)
-
-  with table.batch_writer() as batch:
-    for tweet in tweets:
-      batch.put_item(
-        Item={ 
-          "id_str": tweet["id_str"]
-        }
-      )
