@@ -30,7 +30,7 @@ def get_filtered_tweets(tweets):
   return filtered_tweets
 
 def get_scan_params_by_table(last_evaluated_key = None, table_name = "Tweets"):
-  if (table_name == "Classified_Tweets"):
+  if (table_name == "Filtered_Tweets"):
     return {
       "filter_expression": "contains(#text, :text)",
       "expression_attribute_values": { ":text": "… https://t.co/" },
@@ -92,8 +92,7 @@ def scan_table_using_filters(scan_params, table_name = "Tweets"):
   return table.scan(
     FilterExpression=scan_params["filter_expression"],
     ExpressionAttributeValues=scan_params["expression_attribute_values"],
-    ExpressionAttributeNames=scan_params["expression_attribute_names"],
-    Limit=25
+    ExpressionAttributeNames=scan_params["expression_attribute_names"]
   )
 
 def scan_table_using_filters_by_last_evaluated_key(scan_params, table_name = "Tweets"):
@@ -103,8 +102,7 @@ def scan_table_using_filters_by_last_evaluated_key(scan_params, table_name = "Tw
     FilterExpression=scan_params["filter_expression"],
     ExpressionAttributeValues=scan_params["expression_attribute_values"],
     ExpressionAttributeNames=scan_params["expression_attribute_names"],
-    ExclusiveStartKey=scan_params["last_evaluated_key"],
-    Limit=25
+    ExclusiveStartKey=scan_params["last_evaluated_key"]
   )
 
 def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets"):

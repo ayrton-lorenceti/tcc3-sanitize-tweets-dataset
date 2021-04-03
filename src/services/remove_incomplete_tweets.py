@@ -3,7 +3,7 @@ from utils.s3_utils import save_scan_results
 from utils.events_utils import disable_rule
 
 json_filename = "remove_incomplete_tweets_table_scan_results"
-table_name = "Classified_Tweets"
+table_name = "Filtered_Tweets"
 
 def remove_incomplete_tweets_from_the_start():
     scan_params = get_scan_params_by_table(table_name)
@@ -43,7 +43,7 @@ def remove_incomplete_tweets_by_last_evaluated_key(last_scan_results):
 
   return scan_results
 
-def get_scan_results(filtered_tweets, last_remaining_amount = 121):
+def get_scan_results(filtered_tweets, last_remaining_amount = 192924):
   return {
     "remaining_amount": last_remaining_amount - filtered_tweets["scanned_count"],
     "last_evaluated_key": filtered_tweets["last_evaluated_key"]
