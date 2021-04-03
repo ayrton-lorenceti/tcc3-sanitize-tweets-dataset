@@ -43,7 +43,7 @@ def remove_incomplete_tweets_by_last_evaluated_key(last_scan_results):
 
   return scan_results
 
-def get_scan_results(filtered_tweets, last_remaining_amount = 124):
+def get_scan_results(filtered_tweets, last_remaining_amount = 121):
   return {
     "remaining_amount": last_remaining_amount - filtered_tweets["scanned_count"],
     "last_evaluated_key": filtered_tweets["last_evaluated_key"]
