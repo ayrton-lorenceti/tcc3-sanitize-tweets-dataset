@@ -1,5 +1,5 @@
 from utils.dynamodb_utils import get_scan_params_by_table, get_filtered_tweets, scan_table_using_filters, scan_table_using_filters_by_last_evaluated_key
-from utils.s3_utils import save_remove_incomplete_tweets_table_scan_results
+from utils.s3_utils import save_scan_results
 
 table_name = "Classified_Tweets"
 
