@@ -130,7 +130,7 @@ def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets")
 
     disable_rule()
 
-    return "-1"
+    return last_evaluated_key
 
   return get_filtered_tweets(tweets)
 
