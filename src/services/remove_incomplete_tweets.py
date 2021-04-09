@@ -21,7 +21,7 @@ def get_tweets_from_items(tweets):
   return [{ "id_str": tweet["id_str"], "text": tweet["full_text"] } for tweet in tweets]
 
 def remove_incomplete_tweets_from_the_start():
-  scan_params = get_scan_params_by_table(table_name)
+  scan_params = get_scan_params_by_table(table_name = table_name)
   scanned_tweets = scan_table_using_filters(scan_params, table_name = table_name)
   filtered_tweets = get_filtered_tweets(scanned_tweets)
 
