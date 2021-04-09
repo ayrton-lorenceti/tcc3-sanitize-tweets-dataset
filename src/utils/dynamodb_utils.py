@@ -20,10 +20,12 @@ def delete_incomplete_tweets(tweets, table_name):
       )
 
 def get_filtered_tweets(tweets):
+  last_evaluated_key = tweets["LastEvaluatedKey"] if "LastEvaluatedKey" in tweets else { "id_str": "-1" } 
+
   filtered_tweets = {
     "count": tweets["Count"],
     "tweets": get_tweets_from_items(tweets["Items"]),
-    "last_evaluated_key": tweets["LastEvaluatedKey"],
+    "last_evaluated_key": last_evaluated_key,
     "scanned_count": tweets["ScannedCount"]
   }
 
@@ -122,15 +124,7 @@ def scan_tweets_table_with_pagination(last_evaluated_key, table_name = "Tweets")
   )
 
   if ("LastEvaluatedKey" not in tweets):
-    last_evaluated_key = {
-      "id_str": "-1"
-    }
-
-    save_last_evaluated_key_to_json(last_evaluated_key)
-
     disable_rule()
-
-    return last_evaluated_key
 
   return get_filtered_tweets(tweets)
 
