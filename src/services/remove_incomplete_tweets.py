@@ -21,18 +21,18 @@ def get_tweets_from_items(tweets):
   return [{ "id_str": tweet["id_str"], "text": tweet["full_text"] } for tweet in tweets]
 
 def remove_incomplete_tweets_from_the_start():
-    scan_params = get_scan_params_by_table(table_name)
-    scanned_tweets = scan_table_using_filters(scan_params, table_name = table_name)
-    filtered_tweets = get_filtered_tweets(scanned_tweets)
+  scan_params = get_scan_params_by_table(table_name)
+  scanned_tweets = scan_table_using_filters(scan_params, table_name = table_name)
+  filtered_tweets = get_filtered_tweets(scanned_tweets)
 
-    print_filtered_tweets(filtered_tweets["tweets"])
+  print_filtered_tweets(filtered_tweets["tweets"])
 
-    delete_incomplete_tweets(filtered_tweets["tweets"], table_name)
+  delete_incomplete_tweets(filtered_tweets["tweets"], table_name)
 
-    scan_results = get_scan_results(filtered_tweets)
-    save_scan_results(scan_results, json_filename)
+  scan_results = get_scan_results(filtered_tweets)
+  save_scan_results(scan_results, json_filename)
 
-    return scan_results
+  return scan_results
 
 def remove_incomplete_tweets_by_last_evaluated_key(last_scan_results):
   scan_params = get_scan_params_by_table(last_scan_results["last_evaluated_key"], table_name)
