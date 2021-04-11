@@ -25,8 +25,6 @@ def remove_incomplete_tweets_from_the_start():
   scanned_tweets = scan_table_using_filters(scan_params, table_name = table_name)
   filtered_tweets = get_filtered_tweets(scanned_tweets)
 
-  print_filtered_tweets(filtered_tweets["tweets"])
-
   delete_incomplete_tweets(filtered_tweets["tweets"], table_name)
 
   scan_results = get_scan_results(filtered_tweets)
