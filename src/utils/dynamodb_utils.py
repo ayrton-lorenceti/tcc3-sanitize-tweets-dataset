@@ -34,9 +34,9 @@ def get_filtered_tweets(tweets):
 def get_scan_params_by_table(last_evaluated_key = None, table_name = "Tweets"):
   if (table_name == "Filtered_Tweets"):
     return {
-      "filter_expression": "contains(#text, :text)",
-      "expression_attribute_values": { ":text": "… https://t.co/" },
-      "expression_attribute_names": { "#text": "text" },
+      "filter_expression": "contains(#text, :full_text)",
+      "expression_attribute_values": { ":full_text": "… https://t.co/" },
+      "expression_attribute_names": { "#text": "full_text" },
       "last_evaluated_key": last_evaluated_key,
       "limit": 1000
     }
